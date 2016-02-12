@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Shouldly;
 using codedui_demo.uitests.Home;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
+using CUITe.ObjectRepository;
 
 namespace codedui_demo.uitests
 {
@@ -21,10 +22,10 @@ namespace codedui_demo.uitests
 
         [TestMethod]
         [AspNetDevelopmentServer("web", "codedui-demo")]
-
         public void Register()
         {
-            var home = new HomePage(Browser);
+            
+            var home = Page.Launch<HomePage>(FromAspNetDevelopmentServer());
             var register = home
                 .ClickRegister();
 
@@ -40,10 +41,9 @@ namespace codedui_demo.uitests
 
         [TestMethod]
         [AspNetDevelopmentServer("web", "codedui-demo")]
-
         public void RegisterAndLogOff()
         {
-            var home = new HomePage(Browser);
+            var home = Page.Launch<HomePage>(FromAspNetDevelopmentServer());
             var register = home
                 .ClickRegister();
 
@@ -61,7 +61,7 @@ namespace codedui_demo.uitests
         [AspNetDevelopmentServer("web", "codedui-demo")]
         public void TestWeakPassword()
         {
-            var home = new HomePage(Browser);
+            var home = Page.Launch<HomePage>(FromAspNetDevelopmentServer());
             var register = home
                 .ClickRegister();
 
@@ -78,25 +78,17 @@ namespace codedui_demo.uitests
 
         }
 
-        private BrowserWindow Browser
+        private Uri FromAspNetDevelopmentServer()
         {
-            get
+            var stack = new StackTrace();
+            var attr = stack.GetFrame(1).GetMethod().GetCustomAttributes(true).OfType<AspNetDevelopmentServerAttribute>().FirstOrDefault();
+
+            if (attr == null)
             {
-                var stack = new StackTrace();
-                var attr = stack.GetFrame(1).GetMethod().GetCustomAttributes(true).OfType<AspNetDevelopmentServerAttribute>().FirstOrDefault();
-
-                if (attr == null)
-                {
-                    throw new InvalidOperationException("This method may only be called directly from the test method and that method should have the AspNetDevelopmentServer attribute.");
-                }
-
-                var url = (Uri)TestContext.Properties[$"{TestContext.AspNetDevelopmentServerPrefix}{attr.Name}"];
-
-                // Open browser in Private mode to start wit clean state, thanks to: http://sqa.stackexchange.com/a/13409/16631
-                var browser = BrowserWindow.Launch(url.ToString(), "-private");
-
-                return browser;
+                throw new InvalidOperationException("This method may only be called directly from the test method and that method should have the AspNetDevelopmentServer attribute.");
             }
+
+            return (Uri)TestContext.Properties[$"{TestContext.AspNetDevelopmentServerPrefix}{attr.Name}"];
         }
 
         private static string CreateUniqueEmail()
