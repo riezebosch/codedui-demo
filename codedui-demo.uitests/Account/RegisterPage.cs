@@ -11,6 +11,28 @@ namespace codedui_demo.uitests.Account
 {
     class RegisterPage : TestPage
     {
+        public IEnumerable<string> Errors
+        {
+            get
+            {
+                var list = Find<HtmlDiv>(HtmlControl.PropertyNames.Class, "validation-summary-errors text-danger");
+                list.Find();
+
+                var ul = Find<HtmlControl>(HtmlControl.PropertyNames.TagName, "ul", list);
+
+                return FindAll<HtmlControl>(HtmlControl.PropertyNames.TagName, "li", ul).Select(li => li.InnerText);
+
+            }
+        }
+
+        private IEnumerable<T> FindAll<T>(string by, string value, UITestControl parent = null)
+            where T : HtmlControl
+
+        {
+            var control = (T)Activator.CreateInstance(typeof(T), parent ?? Browser);
+            control.SearchProperties.Add(by.ToString(), value, PropertyExpressionOperator.EqualTo);
+            return control.FindMatchingControls().Cast<T>();
+        }
 
         public RegisterPage(BrowserWindow browser) : base(browser)
         {

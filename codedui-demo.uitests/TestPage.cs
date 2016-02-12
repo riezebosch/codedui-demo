@@ -23,10 +23,10 @@ namespace codedui_demo.uitests
             Keyboard.SendKeys(control, keys);
         }
 
-        protected T Find<T>(string by, string value)
+        protected T Find<T>(string by, string value, UITestControl parent = null)
             where T : HtmlControl
         {
-            var control = (T)Activator.CreateInstance(typeof(T), Browser);
+            var control = (T)Activator.CreateInstance(typeof(T), parent ?? Browser);
             control.SearchProperties.Add(by.ToString(), value, PropertyExpressionOperator.EqualTo);
             control.Find();
 

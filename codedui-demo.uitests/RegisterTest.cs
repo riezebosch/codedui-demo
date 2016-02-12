@@ -43,11 +43,7 @@ namespace codedui_demo.uitests
 
         public void Register()
         {
-            var url = (Uri)TestContext.Properties[$"{TestContext.AspNetDevelopmentServerPrefix}web"];
-            var browser = BrowserWindow.FromProcess(proc);
-            browser.NavigateToUrl(url);
-
-            var home = new HomePage(browser);
+            var home = new HomePage(Browser);
             var register = home
                 .ClickRegister();
 
@@ -61,5 +57,41 @@ namespace codedui_demo.uitests
 
             home.Logoff();
         }
+
+
+        [TestMethod]
+        [AspNetDevelopmentServer("web", "codedui-demo")]
+        public void TestWeakPassword()
+        {
+            var home = new HomePage(Browser);
+            var register = home
+                .ClickRegister();
+
+            var name = Guid.NewGuid();
+            register.EnterEmail($"{name}@gmail.com")
+                .EnterPassword("password")
+                .EnterConfirmPassword("password")
+                .ClickRegister();
+
+
+            register
+                .Errors
+                .Any(m => m.Contains("Passwords must have"))
+                .ShouldBeTrue();
+
+        }
+
+        private BrowserWindow Browser
+        {
+            get
+            {
+                var url = (Uri)TestContext.Properties[$"{TestContext.AspNetDevelopmentServerPrefix}web"];
+                var browser = BrowserWindow.FromProcess(proc);
+                browser.NavigateToUrl(url);
+
+                return browser;
+            }
+        }
+
     }
 }
