@@ -11,36 +11,18 @@ namespace codedui_demo.uitests.Account
 {
     class RegisterPage : TestPage
     {
-        public IEnumerable<string> Errors
-        {
-            get
-            {
-                var list = Find<HtmlDiv>(HtmlControl.PropertyNames.Class, "validation-summary-errors text-danger");
-                list.Find();
-
-                var ul = Find<HtmlControl>(HtmlControl.PropertyNames.TagName, "ul", list);
-
-                return FindAll<HtmlControl>(HtmlControl.PropertyNames.TagName, "li", ul).Select(li => li.InnerText);
-
-            }
-        }
  
         public RegisterPage(BrowserWindow browser) : base(browser)
         {
 
         }
-
-
-
+        
         public RegisterPage EnterEmail(string email)
         {
             FindAndSendKeys("Email", email);
             return this;
         }
-
         
-
-
         internal RegisterPage EnterPassword(string password)
         {
             FindAndSendKeys("Password", password);
@@ -59,6 +41,19 @@ namespace codedui_demo.uitests.Account
             Mouse.Click(control);
 
             return new HomePage(Browser);
+        }
+
+        public IEnumerable<string> Errors
+        {
+            get
+            {
+                var list = Find<HtmlDiv>(HtmlControl.PropertyNames.Class, "validation-summary-errors text-danger");
+                list.Find();
+
+                var ul = Find<HtmlControl>(HtmlControl.PropertyNames.TagName, "ul", list);
+
+                return FindAll<HtmlControl>(HtmlControl.PropertyNames.TagName, "li", ul).Select(li => li.InnerText);
+            }
         }
     }
 }
