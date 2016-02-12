@@ -40,5 +40,14 @@ namespace codedui_demo.uitests
             control.SearchProperties.Add(by.ToString(), value, PropertyExpressionOperator.EqualTo);
             return control.TryFind();
         }
+
+        protected IEnumerable<T> FindAll<T>(string by, string value, UITestControl parent = null)
+            where T : HtmlControl
+
+        {
+            var control = (T)Activator.CreateInstance(typeof(T), parent ?? Browser);
+            control.SearchProperties.Add(by.ToString(), value, PropertyExpressionOperator.EqualTo);
+            return control.FindMatchingControls().Cast<T>();
+        }
     }
 }
