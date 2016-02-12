@@ -1,7 +1,8 @@
 ﻿//using Microsoft.Services.TestTools.UITesting.Html;
 using codedui_demo.uitests.Account;
+using CUITe.Controls.HtmlControls;
+using CUITe.SearchConfigurations;
 using Microsoft.VisualStudio.TestTools.UITesting;
-using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,24 +15,25 @@ namespace codedui_demo.uitests.Home
 {
     class HomePage : TestPage
     {
+        private Lazy<HtmlDiv> NavBar {  get; } 
        
         public HomePage(BrowserWindow browser) : base(browser)
         {
+            NavBar = new Lazy<HtmlDiv>(() => Browser.Find<HtmlDiv>(By.Class("navbar navbar-inverse navbar-fixed-top")));
         }
 
         public RegisterPage ClickRegister()
         {
-            var link = Find<HtmlHyperlink>(HtmlControl.PropertyNames.Id, "registerLink");
-            link.WaitForControlReady();
-            Mouse.Click(link);
-
+            NavBar.Value.Find<HtmlHyperlink>(By.Id("registerLink")).Click();
             return new RegisterPage(Browser);
         }
 
         internal bool IsLoggedIn(string username = null)
         {
-            HtmlHyperlink link;
-            if (TryFind<HtmlHyperlink>(HtmlControl.PropertyNames.Title, "Manage", out link))
+            NavBar.Value.WaitForControlReady();
+            var link = Browser.Find<HtmlHyperlink>(By.SearchProperties("Title=Manage"));
+
+            if (link.Exists)
             {
                 return username == null ? link.InnerText.Contains(username) : true;
             }
@@ -43,10 +45,10 @@ namespace codedui_demo.uitests.Home
 
         internal HomePage Logoff()
         {
-            var link = Find<HtmlHyperlink>(HtmlControl.PropertyNames.InnerText, "Log off");
-            Mouse.Click(link);
+            NavBar.Value.Find<HtmlHyperlink>(By.SearchProperties("InnerText=Log off")).Click();
 
-            return this;
+            // This action results in a redirect therefore starting fresh when searching for components.
+            return new HomePage(Browser);
         }
     }
 }

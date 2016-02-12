@@ -21,7 +21,6 @@ namespace codedui_demo.uitests
 
         [TestMethod]
         [AspNetDevelopmentServer("web", "codedui-demo")]
-
         public void Register()
         {
             var home = new HomePage(Browser);
@@ -40,7 +39,6 @@ namespace codedui_demo.uitests
 
         [TestMethod]
         [AspNetDevelopmentServer("web", "codedui-demo")]
-
         public void RegisterAndLogOff()
         {
             var home = new HomePage(Browser);
