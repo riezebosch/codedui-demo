@@ -19,27 +19,15 @@ namespace codedui_demo.uitests
 
         protected void FindAndSendKeys(string id, string keys)
         {
-            var control = Find<HtmlEdit>(By.Id, id);
+            var control = Find<HtmlEdit>(HtmlControl.PropertyNames.Id, id);
             Keyboard.SendKeys(control, keys);
         }
 
-        protected T Find<T>(By by, string value)
+        protected T Find<T>(string by, string value)
             where T : HtmlControl
         {
             var control = (T)Activator.CreateInstance(typeof(T), Browser);
-            if (by == By.Id)
-            {
-                control.SearchProperties.Add(HtmlControl.PropertyNames.Id, value, PropertyExpressionOperator.EqualTo);
-            }
-            else if (by == By.Text)
-            {
-                control.SearchProperties.Add(HtmlControl.PropertyNames.InnerText, value, PropertyExpressionOperator.EqualTo);
-
-            }
-            else
-            {
-                control.SearchProperties.Add(by.ToString(), value, PropertyExpressionOperator.EqualTo);
-            }
+            control.SearchProperties.Add(by.ToString(), value, PropertyExpressionOperator.EqualTo);
             control.Find();
 
             return control;

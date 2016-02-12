@@ -97,7 +97,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\RegisterPage.cs" />
-    <Compile Include="By.cs" />
     <Compile Include="Home\HomePage.cs" />
     <Compile Include="RegisterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

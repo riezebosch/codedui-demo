@@ -42,7 +42,7 @@ namespace codedui_demo.uitests.Account
 
         internal HomePage ClickRegister()
         {
-            var control = Find<HtmlInputButton>(By.Type, "submit");
+            var control = Find<HtmlInputButton>(HtmlControl.PropertyNames.Type, "submit");
             Mouse.Click(control);
 
             return new HomePage(Browser);
