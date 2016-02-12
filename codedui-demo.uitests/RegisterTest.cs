@@ -35,10 +35,26 @@ namespace codedui_demo.uitests
                 .ClickRegister()
                 .IsLoggedIn($"{name}@gmail.com")
                 .ShouldBeTrue();
-
-            home.Logoff();
         }
 
+        [TestMethod]
+        [AspNetDevelopmentServer("web", "codedui-demo")]
+
+        public void RegisterAndLogOff()
+        {
+            var home = new HomePage(Browser);
+            var register = home
+                .ClickRegister();
+
+            var name = Guid.NewGuid();
+            register.EnterEmail($"{name}@gmail.com")
+                .EnterPassword("P@ssw0rd")
+                .EnterConfirmPassword("P@ssw0rd")
+                .ClickRegister()
+                .Logoff()
+                .IsLoggedIn()
+                .ShouldBeFalse();
+        }
 
         [TestMethod]
         [AspNetDevelopmentServer("web", "codedui-demo")]

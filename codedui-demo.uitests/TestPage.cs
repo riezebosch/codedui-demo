@@ -32,5 +32,13 @@ namespace codedui_demo.uitests
 
             return control;
         }
+
+        protected bool TryFind<T>(string by, string value, out T control, UITestControl parent = null)
+           where T : HtmlControl
+        {
+            control = (T)Activator.CreateInstance(typeof(T), parent ?? Browser);
+            control.SearchProperties.Add(by.ToString(), value, PropertyExpressionOperator.EqualTo);
+            return control.TryFind();
+        }
     }
 }

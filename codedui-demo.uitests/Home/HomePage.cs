@@ -28,11 +28,18 @@ namespace codedui_demo.uitests.Home
             return new RegisterPage(Browser);
         }
 
-        internal bool IsLoggedIn(string username)
+        internal bool IsLoggedIn(string username = null)
         {
-            var link = Find<HtmlHyperlink>(HtmlControl.PropertyNames.Title, "Manage");
-            return link.InnerText.Contains(username);
+            HtmlHyperlink link;
+            if (TryFind<HtmlHyperlink>(HtmlControl.PropertyNames.Title, "Manage", out link))
+            {
+                return username == null ? link.InnerText.Contains(username) : true;
+            }
+
+            return false;
         }
+
+       
 
         internal HomePage Logoff()
         {
