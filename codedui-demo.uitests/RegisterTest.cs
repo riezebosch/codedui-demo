@@ -17,26 +17,7 @@ namespace codedui_demo.uitests
     [CodedUITest]
     public class RegisterTest
     {
-        static Process proc;
-
         public TestContext TestContext { get; set; }
-
-        [ClassInitialize]
-        public static void Init(TestContext context)
-        {
-            Playback.Initialize();
-            var browser = BrowserWindow.Launch();
-            proc = browser.Process;
-            browser.CloseOnPlaybackCleanup = false;
-        }
-
-        [ClassCleanup]
-        public static void CleanUp()
-        {
-            Playback.Initialize();
-            var browser = BrowserWindow.FromProcess(proc);
-            browser.Close();
-        }
 
         [TestMethod]
         [AspNetDevelopmentServer("web", "codedui-demo")]
@@ -102,8 +83,9 @@ namespace codedui_demo.uitests
             get
             {
                 var url = (Uri)TestContext.Properties[$"{TestContext.AspNetDevelopmentServerPrefix}web"];
-                var browser = BrowserWindow.FromProcess(proc);
-                browser.NavigateToUrl(url);
+
+                // Open browser in Private mode to start wit clean state, thanks to: http://sqa.stackexchange.com/a/13409/16631
+                var browser = BrowserWindow.Launch(url.ToString(), "-private");
 
                 return browser;
             }
