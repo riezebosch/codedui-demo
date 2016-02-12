@@ -28,14 +28,15 @@ namespace codedui_demo.uitests
             var register = home
                 .ClickRegister();
 
-            var name = Guid.NewGuid();
-            register.EnterEmail($"{name}@gmail.com")
+            var email = CreateUniqueEmail();
+            register.EnterEmail(email)
                 .EnterPassword("P@ssw0rd")
                 .EnterConfirmPassword("P@ssw0rd")
                 .ClickRegister()
-                .IsLoggedIn($"{name}@gmail.com")
+                .IsLoggedIn(email)
                 .ShouldBeTrue();
         }
+
 
         [TestMethod]
         [AspNetDevelopmentServer("web", "codedui-demo")]
@@ -46,8 +47,8 @@ namespace codedui_demo.uitests
             var register = home
                 .ClickRegister();
 
-            var name = Guid.NewGuid();
-            register.EnterEmail($"{name}@gmail.com")
+            var email = CreateUniqueEmail();
+            register.EnterEmail(email)
                 .EnterPassword("P@ssw0rd")
                 .EnterConfirmPassword("P@ssw0rd")
                 .ClickRegister()
@@ -64,12 +65,11 @@ namespace codedui_demo.uitests
             var register = home
                 .ClickRegister();
 
-            var name = Guid.NewGuid();
-            register.EnterEmail($"{name}@gmail.com")
+            var email = CreateUniqueEmail();
+            register.EnterEmail(email)
                 .EnterPassword("password")
                 .EnterConfirmPassword("password")
                 .ClickRegister();
-
 
             register
                 .Errors
@@ -82,7 +82,15 @@ namespace codedui_demo.uitests
         {
             get
             {
-                var url = (Uri)TestContext.Properties[$"{TestContext.AspNetDevelopmentServerPrefix}web"];
+                var stack = new StackTrace();
+                var attr = stack.GetFrame(1).GetMethod().GetCustomAttributes(true).OfType<AspNetDevelopmentServerAttribute>().FirstOrDefault();
+
+                if (attr == null)
+                {
+                    throw new InvalidOperationException("This method may only be called directly from the test method and that method should have the AspNetDevelopmentServer attribute.");
+                }
+
+                var url = (Uri)TestContext.Properties[$"{TestContext.AspNetDevelopmentServerPrefix}{attr.Name}"];
 
                 // Open browser in Private mode to start wit clean state, thanks to: http://sqa.stackexchange.com/a/13409/16631
                 var browser = BrowserWindow.Launch(url.ToString(), "-private");
@@ -91,5 +99,9 @@ namespace codedui_demo.uitests
             }
         }
 
+        private static string CreateUniqueEmail()
+        {
+            return $"{Guid.NewGuid()}@gmail.com";
+        }
     }
 }
