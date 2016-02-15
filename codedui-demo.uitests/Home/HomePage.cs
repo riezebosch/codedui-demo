@@ -1,6 +1,7 @@
 ﻿//using Microsoft.Services.TestTools.UITesting.Html;
 using codedui_demo.uitests.Account;
 using CUITe.Controls.HtmlControls;
+using CUITe.ObjectRepository;
 using CUITe.SearchConfigurations;
 using Microsoft.VisualStudio.TestTools.UITesting;
 using System;
@@ -13,11 +14,11 @@ using System.Windows.Forms;
 
 namespace codedui_demo.uitests.Home
 {
-    class HomePage : TestPage
+    class HomePage : Page
     {
         private Lazy<HtmlDiv> NavBar {  get; } 
        
-        public HomePage(BrowserWindow browser) : base(browser)
+        public HomePage()
         {
             NavBar = new Lazy<HtmlDiv>(() => Browser.Find<HtmlDiv>(By.Class("navbar navbar-inverse navbar-fixed-top")));
         }
@@ -25,13 +26,13 @@ namespace codedui_demo.uitests.Home
         public RegisterPage ClickRegister()
         {
             NavBar.Value.Find<HtmlHyperlink>(By.Id("registerLink")).Click();
-            return new RegisterPage(Browser);
+            return NavigateTo<RegisterPage>();
         }
 
-        internal bool IsLoggedIn(string username = null)
+        public bool IsLoggedIn(string username = null)
         {
             NavBar.Value.WaitForControlReady();
-            var link = Browser.Find<HtmlHyperlink>(By.SearchProperties("Title=Manage"));
+            var link = Find<HtmlHyperlink>(By.SearchProperties("Title=Manage"));
 
             if (link.Exists)
             {
@@ -48,7 +49,7 @@ namespace codedui_demo.uitests.Home
             NavBar.Value.Find<HtmlHyperlink>(By.SearchProperties("InnerText=Log off")).Click();
 
             // This action results in a redirect therefore starting fresh when searching for components.
-            return new HomePage(Browser);
+            return NavigateTo<HomePage>();
         }
     }
 }
