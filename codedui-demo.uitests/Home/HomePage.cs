@@ -36,7 +36,7 @@ namespace codedui_demo.uitests.Home
 
             if (link.Exists)
             {
-                return username == null ? link.InnerText.Contains(username) : true;
+                return username == null || link.InnerText.Contains(username);
             }
 
             return false;
