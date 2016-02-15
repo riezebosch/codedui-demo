@@ -42,13 +42,9 @@ namespace codedui_demo.uitests.Home
             return false;
         }
 
-       
-
-        internal HomePage Logoff()
+        public HomePage Logoff()
         {
             NavBar.Value.Find<HtmlHyperlink>(By.SearchProperties("InnerText=Log off")).Click();
-
-            // This action results in a redirect therefore starting fresh when searching for components.
             return NavigateTo<HomePage>();
         }
     }
