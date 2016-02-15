@@ -13,11 +13,7 @@ namespace codedui_demo.uitests
     [CodedUITest]
     public class RegisterTest
     {
-        public TestContext TestContext
-        {
-            get;
-            set;
-        }
+        public TestContext TestContext { get; set; }
 
         [TestInitialize]
         public void TestInit()
@@ -29,31 +25,64 @@ namespace codedui_demo.uitests
         [AspNetDevelopmentServer("web", "codedui-demo")]
         public void Register()
         {
-            var home = Page.Launch<HomePage>(FromAspNetDevelopmentServer());
-            var register = home.ClickRegister();
+            var register = Page
+                .Launch<HomePage>(FromAspNetDevelopmentServer())
+                .ClickRegister();
+
             var email = CreateUniqueEmail();
-            register.EnterEmail(email).EnterPassword("P@ssw0rd").EnterConfirmPassword("P@ssw0rd").ClickRegister().IsLoggedIn(email).ShouldBeTrue();
+
+            var home = register
+                .EnterEmail(email)
+                .EnterPassword("P@ssw0rd")
+                .EnterConfirmPassword("P@ssw0rd")
+                .ClickRegister();
+
+            home.IsLoggedIn(email)
+                .ShouldBeTrue();
         }
 
         [TestMethod]
         [AspNetDevelopmentServer("web", "codedui-demo")]
         public void RegisterAndLogOff()
         {
-            var home = Page.Launch<HomePage>(FromAspNetDevelopmentServer());
-            var register = home.ClickRegister();
+            var register = Page
+                .Launch<HomePage>(FromAspNetDevelopmentServer())
+                .ClickRegister();
+
             var email = CreateUniqueEmail();
-            register.EnterEmail(email).EnterPassword("P@ssw0rd").EnterConfirmPassword("P@ssw0rd").ClickRegister().Logoff().IsLoggedIn().ShouldBeFalse();
+
+            var home = register
+                .EnterEmail(email)
+                .EnterPassword("P@ssw0rd")
+                .EnterConfirmPassword("P@ssw0rd")
+                .ClickRegister();
+            
+            home
+                .Logoff()
+                .IsLoggedIn()
+                .ShouldBeFalse();
         }
 
         [TestMethod]
         [AspNetDevelopmentServer("web", "codedui-demo")]
         public void TestWeakPassword()
         {
-            var home = Page.Launch<HomePage>(FromAspNetDevelopmentServer());
-            var register = home.ClickRegister();
+            var register = Page
+                .Launch<HomePage>(FromAspNetDevelopmentServer())
+                .ClickRegister();
+
             var email = CreateUniqueEmail();
-            register.EnterEmail(email).EnterPassword("password").EnterConfirmPassword("password").ClickRegister();
-            register.Errors.Any(m => m.Contains("Passwords must have")).ShouldBeTrue();
+
+            register
+                .EnterEmail(email)
+                .EnterPassword("password")
+                .EnterConfirmPassword("password")
+                .ClickRegister();
+
+            register
+                .Errors
+                .Any(m => m.Contains("Passwords must have"))
+                .ShouldBeTrue();
         }
 
         private Uri FromAspNetDevelopmentServer()

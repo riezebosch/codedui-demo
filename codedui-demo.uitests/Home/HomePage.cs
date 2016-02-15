@@ -36,19 +36,15 @@ namespace codedui_demo.uitests.Home
 
             if (link.Exists)
             {
-                return username == null ? link.InnerText.Contains(username) : true;
+                return username == null || link.InnerText.Contains(username);
             }
 
             return false;
         }
 
-       
-
-        internal HomePage Logoff()
+        public HomePage Logoff()
         {
             NavBar.Value.Find<HtmlHyperlink>(By.SearchProperties("InnerText=Log off")).Click();
-
-            // This action results in a redirect therefore starting fresh when searching for components.
             return NavigateTo<HomePage>();
         }
     }
