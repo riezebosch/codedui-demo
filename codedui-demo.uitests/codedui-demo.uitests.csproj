@@ -65,8 +65,8 @@
     </When>
   </Choose>
   <ItemGroup>
-    <Reference Include="CUITe, Version=2.0.214.0, Culture=neutral, PublicKeyToken=a67a8fd362ae8334, processorArchitecture=MSIL">
-      <HintPath>..\packages\CUITe.VS2013.2.0.214-beta\lib\net45\CUITe.dll</HintPath>
+    <Reference Include="CUITe, Version=2.0.253.0, Culture=neutral, PublicKeyToken=a67a8fd362ae8334, processorArchitecture=MSIL">
+      <HintPath>..\packages\CUITe.VS2013.2.0.253-beta\lib\net45\CUITe.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">

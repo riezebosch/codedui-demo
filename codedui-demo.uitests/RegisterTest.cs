@@ -6,7 +6,7 @@ using System.Linq;
 using Shouldly;
 using codedui_demo.uitests.Home;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
-using CUITe.ObjectRepository;
+using CUITe.PageObjects;
 
 namespace codedui_demo.uitests
 {
