@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UITesting;
 using codedui_demo.uitests.Home;
 using CUITe.Controls.HtmlControls;
 using CUITe.SearchConfigurations;
-using CUITe.ObjectRepository;
+using CUITe.PageObjects;
 
 namespace codedui_demo.uitests.Account
 {
