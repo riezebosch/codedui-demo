@@ -19,6 +19,10 @@ namespace codedui_demo.uitests
         public void TestInit()
         {
             SpeedUp.Setup();
+
+            // Run CodedUI using other web browsers: https://msdn.microsoft.com/library/jj835758.aspx?f=255&MSPPError=-2147217396#Anchor_1
+            // In short: install the "Selenium components for Cross Browser Testing" plugin.
+            BrowserWindow.CurrentBrowser = "Chrome";
         }
 
         [TestMethod]
