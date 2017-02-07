@@ -6,31 +6,41 @@ using System.Linq;
 using Shouldly;
 using codedui_demo.uitests.Home;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
-using CUITe.PageObjects;
+using OpenQA.Selenium;
+using OpenQA.Selenium.IE;
 
 namespace codedui_demo.uitests
 {
-    [CodedUITest]
+    [TestClass]
+    [DeploymentItem(@"IEDriverServer.exe")]
     public class RegisterTest
     {
         public TestContext TestContext { get; set; }
 
-        [TestInitialize]
-        public void TestInit()
-        {
-            SpeedUp.Setup();
+        private const string devservername = "web";
+        private const string targetprojectname = "codedui-demo";
 
-            // Run CodedUI using other web browsers: https://msdn.microsoft.com/library/jj835758.aspx?f=255&MSPPError=-2147217396#Anchor_1
-            // In short: install the "Selenium components for Cross Browser Testing" plugin.
-            BrowserWindow.CurrentBrowser = "Chrome";
+        private IWebDriver driver;
+
+        [TestInitialize]
+        [AspNetDevelopmentServer(devservername, targetprojectname)]
+        public void StartTest()
+        {
+            driver = new InternetExplorerDriver();
+            driver.Url = FromTestContext().ToString();
+        }
+
+        [TestCleanup]
+        public void EndTest()
+        {
+            driver.Close();
         }
 
         [TestMethod]
-        [AspNetDevelopmentServer("web", "codedui-demo")]
+        [AspNetDevelopmentServer(devservername, targetprojectname)]
         public void Register()
         {
-            var register = Page
-                .Launch<HomePage>(FromAspNetDevelopmentServer())
+            var register = new HomePage(driver)
                 .ClickRegister();
 
             var email = CreateUniqueEmail();
@@ -46,11 +56,10 @@ namespace codedui_demo.uitests
         }
 
         [TestMethod]
-        [AspNetDevelopmentServer("web", "codedui-demo")]
+        [AspNetDevelopmentServer(devservername, targetprojectname)]
         public void RegisterAndLogOff()
         {
-            var register = Page
-                .Launch<HomePage>(FromAspNetDevelopmentServer())
+            var register = new HomePage(driver)
                 .ClickRegister();
 
             var email = CreateUniqueEmail();
@@ -68,11 +77,10 @@ namespace codedui_demo.uitests
         }
 
         [TestMethod]
-        [AspNetDevelopmentServer("web", "codedui-demo")]
+        [AspNetDevelopmentServer(devservername, targetprojectname)]
         public void TestWeakPassword()
         {
-            var register = Page
-                .Launch<HomePage>(FromAspNetDevelopmentServer())
+            var register = new HomePage(driver)
                 .ClickRegister();
 
             var email = CreateUniqueEmail();
@@ -89,16 +97,9 @@ namespace codedui_demo.uitests
                 .ShouldBeTrue();
         }
 
-        private Uri FromAspNetDevelopmentServer()
+        private Uri FromTestContext()
         {
-            var stack = new StackTrace();
-            var attr = stack.GetFrame(1).GetMethod().GetCustomAttributes(true).OfType<AspNetDevelopmentServerAttribute>().FirstOrDefault();
-            if (attr == null)
-            {
-                throw new InvalidOperationException("This method may only be called directly from the test method and that method should have the AspNetDevelopmentServer attribute.");
-            }
-
-            return (Uri)TestContext.Properties[$"{TestContext.AspNetDevelopmentServerPrefix}{attr.Name}"];
+            return (Uri)TestContext.Properties[$"{TestContext.AspNetDevelopmentServerPrefix}{devservername}"];
         }
 
         private static string CreateUniqueEmail()
