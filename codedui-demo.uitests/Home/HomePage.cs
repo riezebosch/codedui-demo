@@ -1,9 +1,5 @@
 ﻿//using Microsoft.Services.TestTools.UITesting.Html;
 using codedui_demo.uitests.Account;
-using CUITe.Controls.HtmlControls;
-using CUITe.PageObjects;
-using CUITe.SearchConfigurations;
-using Microsoft.VisualStudio.TestTools.UITesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,32 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenQA.Selenium;
 
 namespace codedui_demo.uitests.Home
 {
-    class HomePage : Page
+    class HomePage 
     {
-        private Lazy<HtmlDiv> NavBar {  get; } 
+        private IWebDriver driver;
+
+        private Lazy<IWebElement> NavBar {  get; } 
        
-        public HomePage()
+        public HomePage(IWebDriver driver)
         {
-            NavBar = new Lazy<HtmlDiv>(() => Browser.Find<HtmlDiv>(By.Class("navbar navbar-inverse navbar-fixed-top")));
+            this.driver = driver;
+
+            NavBar = new Lazy<IWebElement>(() => driver.FindElement(By.ClassName("navbar")));
         }
 
         public RegisterPage ClickRegister()
         {
-            NavBar.Value.Find<HtmlHyperlink>(By.Id("registerLink")).Click();
-            return NavigateTo<RegisterPage>();
+            NavBar.Value.FindElement(By.Id("registerLink")).Click();
+            return new RegisterPage(driver);
         }
 
         public bool IsLoggedIn(string username = null)
         {
-            NavBar.Value.WaitForControlReady();
-            var link = Find<HtmlHyperlink>(By.SearchProperties("Title=Manage"));
-
-            if (link.Exists)
+            var link = driver.FindElements(By.CssSelector("a[title='Manage']"));
+            if (link.Any())
             {
-                return username == null || link.InnerText.Contains(username);
+                return username == null || link.First().Text.Contains(username);
             }
 
             return false;
@@ -44,8 +43,8 @@ namespace codedui_demo.uitests.Home
 
         public HomePage Logoff()
         {
-            NavBar.Value.Find<HtmlHyperlink>(By.SearchProperties("InnerText=Log off")).Click();
-            return NavigateTo<HomePage>();
+            NavBar.Value.FindElement(By.LinkText("Log off")).Click();
+            return new HomePage(driver);
         }
     }
 }
