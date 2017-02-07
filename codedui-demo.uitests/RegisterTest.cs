@@ -1,19 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UITesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using Shouldly;
 using codedui_demo.uitests.Home;
 using Microsoft.VisualStudio.TestTools.UnitTesting.Web;
 using OpenQA.Selenium;
-using OpenQA.Selenium.IE;
 
 namespace codedui_demo.uitests
 {
     [TestClass]
-    [DeploymentItem(@"IEDriverServer.exe")]
-    public class RegisterTest
+    public abstract class RegisterTest
     {
         public TestContext TestContext { get; set; }
 
@@ -23,12 +19,13 @@ namespace codedui_demo.uitests
         private IWebDriver driver;
 
         [TestInitialize]
-        [AspNetDevelopmentServer(devservername, targetprojectname)]
         public void StartTest()
         {
-            driver = new InternetExplorerDriver();
+            driver = InitializeDriver();
             driver.Url = FromTestContext().ToString();
         }
+
+        protected abstract IWebDriver InitializeDriver();
 
         [TestCleanup]
         public void EndTest()
