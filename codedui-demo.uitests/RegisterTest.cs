@@ -75,7 +75,7 @@ namespace codedui_demo.uitests
 
         [TestMethod]
         [AspNetDevelopmentServer(devservername, targetprojectname)]
-        public void TestWeakPassword()
+        public void TestErrorForWeakPassword()
         {
             var register = new HomePage(driver)
                 .ClickRegister();
@@ -90,8 +90,27 @@ namespace codedui_demo.uitests
 
             register
                 .Errors
-                .Any(m => m.Contains("Passwords must have"))
-                .ShouldBeTrue();
+                .ShouldContain("Passwords must have at least one non letter or digit character. Passwords must have at least one digit ('0'-'9'). Passwords must have at least one uppercase ('A'-'Z').");
+        }
+
+        [TestMethod]
+        [AspNetDevelopmentServer(devservername, targetprojectname)]
+        public void TestErrorWhenConfirmPasswordDoesNotMatch()
+        {
+            var register = new HomePage(driver)
+                .ClickRegister();
+
+            var email = CreateUniqueEmail();
+
+            register
+                .EnterEmail(email)
+                .EnterPassword("P@ssw0rd")
+                .EnterConfirmPassword("P@Ssw0rd")
+                .ClickRegister();
+
+            register
+                .Errors
+                .ShouldContain("The password and confirmation password do not match.");
         }
 
         private Uri FromTestContext()
