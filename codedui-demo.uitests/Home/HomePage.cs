@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace codedui_demo.uitests.Home
 {
@@ -20,13 +21,15 @@ namespace codedui_demo.uitests.Home
         public HomePage(IWebDriver driver)
         {
             this.driver = driver;
-
             NavBar = new Lazy<IWebElement>(() => driver.FindElement(By.ClassName("navbar")));
         }
 
         public RegisterPage ClickRegister()
         {
-            NavBar.Value.FindElement(By.Id("registerLink")).Click();
+            var link = NavBar.Value.FindElement(By.Id("registerLink"));
+            link.Click();
+
+            WaitForStaleness(link);
             return new RegisterPage(driver);
         }
 
@@ -43,8 +46,27 @@ namespace codedui_demo.uitests.Home
 
         public HomePage Logoff()
         {
-            NavBar.Value.FindElement(By.LinkText("Log off")).Click();
+            var link = NavBar.Value.FindElement(By.LinkText("Log off"));
+            link.Click();
+
+            WaitForStaleness(link);
             return new HomePage(driver);
+        }
+
+        /// <summary>
+        /// Wait for staleness of (items on) current page before 
+        /// navigating to new page.
+        /// </summary>
+        /// <remarks>
+        /// This worked just fine for all browsers, but IE started
+        /// to nag when zoom level wasn't 100% and zoom level is ignored
+        /// in the driver options.s
+        /// </remarks>
+        /// <param name="link"></param>
+        private void WaitForStaleness(IWebElement link)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            wait.Until(ExpectedConditions.StalenessOf(link));
         }
     }
 }

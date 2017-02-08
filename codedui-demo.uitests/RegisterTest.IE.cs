@@ -15,7 +15,7 @@ namespace codedui_demo.uitests
     {
         protected override IWebDriver InitializeDriver()
         {
-            return new InternetExplorerDriver();
+            return new InternetExplorerDriver(new InternetExplorerOptions { IgnoreZoomLevel = true });
         }
     }
 }
