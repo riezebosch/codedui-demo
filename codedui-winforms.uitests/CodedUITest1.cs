@@ -16,6 +16,7 @@ namespace codedui_winforms.uitests
     /// Summary description for CodedUITest1
     /// </summary>
     [CodedUITest]
+    [DeploymentItem("codedui-winforms.exe")]
     public class CodedUITest1
     {
         public CodedUITest1()
@@ -26,6 +27,8 @@ namespace codedui_winforms.uitests
         public void CodedUITestMethod1()
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
+            ApplicationUnderTest.Launch("codedui-winforms.exe");
+
         }
 
         #region Additional test attributes
