@@ -28,6 +28,9 @@ namespace codedui_winforms.uitests
         {
             // To generate code for this test, select "Generate Code for Coded UI Test" from the shortcut menu and select one of the menu items.
             ApplicationUnderTest.Launch("codedui-winforms.exe");
+            this.UIMap.EnterNumber();
+            this.UIMap.AssertOutput();
+
 
         }
 
@@ -67,5 +70,20 @@ namespace codedui_winforms.uitests
             }
         }
         private TestContext testContextInstance;
+
+        public UIMap UIMap
+        {
+            get
+            {
+                if ((this.map == null))
+                {
+                    this.map = new UIMap();
+                }
+
+                return this.map;
+            }
+        }
+
+        private UIMap map;
     }
 }

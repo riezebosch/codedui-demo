@@ -25,7 +25,7 @@ namespace codedui_winforms
 
         private int Fib(int n)
         {
-            if (n < 1)
+            if (n <= 1)
             {
                 return n;
             }
