@@ -24,7 +24,8 @@ namespace codedui_wpf.uitests
         {
             MainPage
                  .Start()
-                .EnterInput(5)
+                .EnterFirstInput(5)
+                .EnterSecondInput(6)
                 .ClickButton()
                 .ReadOutput()
                 .ShouldBe("5");
@@ -35,7 +36,7 @@ namespace codedui_wpf.uitests
         {
             MainPage
                 .Start()
-                .EnterInput(-3)
+                .EnterFirstInput(-3)
                 .ClickButton()
                 .ReadOutput()
                 .ShouldBe("Invalid input.");

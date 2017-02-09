@@ -23,25 +23,42 @@ namespace codedui_wpf.uitests
             }
         }
 
-        private WpfEdit Input
+        private WpfEdit Input1
         {
             get
             {
-                var wrapper = new WpfWindow(Main);
-                wrapper.SearchProperties[UITestControl.PropertyNames.Name] = "input";
+                var control = new WpfEdit(Main);
+                control.SearchProperties[WpfControl.PropertyNames.AutomationId] = "BAsMDgQKAAAHDwYGBA4JDQ";
 
-                return new WpfEdit(wrapper);
+                return control;
             }
         }
-       
+
+        private WpfEdit Input2
+        {
+            get
+            {
+                var control = new WpfEdit(Main);
+                control.SearchProperties[WpfControl.PropertyNames.AutomationId] = "BAUCBA8BBgkNDAkEBAMLBg";
+
+                return control;
+            }
+        }
+
+        public MainPage EnterSecondInput(int input)
+        {
+            Input2.Text = input.ToString();
+            return this;
+        }
+
         private WpfButton Button
         {
             get
             {
-                var wrapper = new WpfWindow(Main);
-                wrapper.SearchProperties[UITestControl.PropertyNames.Name] = "button";
+                var control = new WpfButton(Main);
+                control.SearchProperties[WpfControl.PropertyNames.AutomationId] = "BgkJBA8MAg4MAw0CBAYLBw";
 
-                return new WpfButton(wrapper);
+                return control;
             }
         }
 
@@ -49,10 +66,10 @@ namespace codedui_wpf.uitests
         {
             get
             {
-                var wrapper = new WpfText(Main);
-                wrapper.SearchProperties[UITestControl.PropertyNames.Name] = "output";
+                var control = new WpfText(Main);
+                control.SearchProperties[WpfControl.PropertyNames.AutomationId] = "CQcKCw0LBQsIAQ0CBAwHAA";
 
-                return new WpfText(wrapper);
+                return control;
             }
         }
 
@@ -67,9 +84,9 @@ namespace codedui_wpf.uitests
                 app = ApplicationUnderTest.Launch("codedui-wpf.exe")
             };
         }
-        public MainPage EnterInput(int input)
+        public MainPage EnterFirstInput(int input)
         {
-            Input.Text = input.ToString();
+            Input1.Text = input.ToString();
             return this;
         }
         public MainPage ClickButton()

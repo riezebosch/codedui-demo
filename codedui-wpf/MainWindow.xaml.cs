@@ -27,7 +27,7 @@ namespace codedui_wpf
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            var n = int.Parse(input.Text);
+            var n = int.Parse(input1.Text);
             if (n >= 0)
             {
                 output.Content = Fib(n);
