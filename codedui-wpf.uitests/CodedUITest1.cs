@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using System.Windows.Forms;
 using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UITesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 using Shouldly;
+using CUITe.ScreenObjects;
 
 namespace codedui_wpf.uitests
 {
@@ -22,8 +22,8 @@ namespace codedui_wpf.uitests
         [TestMethod]
         public void CodedUITestMethod1()
         {
-            MainPage
-                 .Start()
+            Screen
+                .Launch<MainPage>("codedui-wpf.exe")
                 .EnterFirstInput(5)
                 .EnterSecondInput(6)
                 .ClickButton()
@@ -34,8 +34,9 @@ namespace codedui_wpf.uitests
         [TestMethod]
         public void ErrorMessageOnNegativeInput()
         {
-            MainPage
-                .Start()
+
+            Screen
+                .Launch<MainPage>("codedui-wpf.exe")
                 .EnterFirstInput(-3)
                 .ClickButton()
                 .ReadOutput()

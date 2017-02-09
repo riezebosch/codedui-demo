@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CUITe, Version=2.0.381.0, Culture=neutral, PublicKeyToken=a67a8fd362ae8334, processorArchitecture=MSIL">
+      <HintPath>..\packages\CUITe.VS2015.2.0.381-beta\lib\net45\CUITe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
