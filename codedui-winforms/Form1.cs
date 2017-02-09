@@ -20,7 +20,14 @@ namespace codedui_winforms
         private void button1_Click(object sender, EventArgs e)
         {
             var n = int.Parse(textBox1.Text);
-            label1.Text = Fib(n).ToString();
+            if (n >= 0)
+            {
+                label1.Text = Fib(n).ToString();
+            }
+            else
+            {
+                label1.Text = "Invalid input.";
+            }
         }
 
         private int Fib(int n)
