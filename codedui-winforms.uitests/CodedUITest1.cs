@@ -30,5 +30,16 @@ namespace codedui_winforms.uitests
                 .ReadOutput()
                 .ShouldBe("5");
         }
+
+        [TestMethod]
+        public void ErrorMessageOnNegativeInput()
+        {
+            MainPage
+                .Start()
+                .EnterInput(-3)
+                .ClickButton()
+                .ReadOutput()
+                .ShouldBe("Invalid input.");
+        }
     }
 }
