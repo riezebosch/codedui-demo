@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codedui-winforms", "codedui
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codedui-winforms.uitests", "codedui-winforms.uitests\codedui-winforms.uitests.csproj", "{BF5094DF-F390-4F43-AE5A-C9EDFED68188}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codedui-wpf", "codedui-wpf\codedui-wpf.csproj", "{BA815EDE-7555-4843-AEE4-46E150200D98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codedui-wpf.uitests", "codedui-wpf.uitests\codedui-wpf.uitests.csproj", "{60DE1F2A-0021-4F7A-98B2-C90F82B2EE2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{BF5094DF-F390-4F43-AE5A-C9EDFED68188}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF5094DF-F390-4F43-AE5A-C9EDFED68188}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF5094DF-F390-4F43-AE5A-C9EDFED68188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA815EDE-7555-4843-AEE4-46E150200D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA815EDE-7555-4843-AEE4-46E150200D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA815EDE-7555-4843-AEE4-46E150200D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA815EDE-7555-4843-AEE4-46E150200D98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60DE1F2A-0021-4F7A-98B2-C90F82B2EE2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60DE1F2A-0021-4F7A-98B2-C90F82B2EE2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60DE1F2A-0021-4F7A-98B2-C90F82B2EE2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60DE1F2A-0021-4F7A-98B2-C90F82B2EE2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
