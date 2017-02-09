@@ -10,46 +10,76 @@ namespace codedui_winforms.uitests
 {
     class MainPage
     {
-        private WinWindow Main { get; set; }
+        private ApplicationUnderTest app;
 
-        public MainPage Start()
+        private WinWindow Main
         {
-            var app = ApplicationUnderTest.Launch("codedui-winforms.exe");
-            Main = new WinWindow(app);
-            Main.WindowTitles.Add("Form1");
+            get
+            {
+                var window = new WinWindow(app);
+                window.WindowTitles.Add("Form1");
 
-            return this;
+                return window;
+            }
+        }
+
+        private WinEdit Input
+        {
+            get
+            {
+                var wrapper = new WinWindow(Main);
+                wrapper.SearchProperties[UITestControl.PropertyNames.Name] = "textBox1";
+
+                return new WinEdit(wrapper);
+            }
+        }
+       
+        private WinButton Button
+        {
+            get
+            {
+                var wrapper = new WinWindow(Main);
+                wrapper.SearchProperties[UITestControl.PropertyNames.Name] = "button1";
+
+                return new WinButton(wrapper);
+            }
+        }
+
+        private WinText Label
+        {
+            get
+            {
+                var wrapper = new WinWindow(Main);
+                wrapper.SearchProperties[UITestControl.PropertyNames.Name] = "label1";
+
+                return new WinText(wrapper);
+            }
+        }
+
+        private MainPage()
+        {
+        }
+
+        public static MainPage Start()
+        {
+            return new MainPage
+            {
+                app = ApplicationUnderTest.Launch("codedui-winforms.exe")
+            };
         }
         public MainPage EnterInput(int input)
         {
-            var wrapper = new WinWindow(Main);
-            wrapper.SearchProperties[WinButton.PropertyNames.Name] = "textBox1";
-
-            var text = new WinEdit(wrapper);
-            text.Text = input.ToString();
-
+            Input.Text = input.ToString();
             return this;
         }
-
         public MainPage ClickButton()
         {
-            var wrapper = new WinWindow(Main);
-            wrapper.SearchProperties[WinButton.PropertyNames.Name] = "button1";
-
-            var button = new WinButton(wrapper);
-            Mouse.Click(button);
-
+            Mouse.Click(Button);
             return this;
         }
-
-     
         public string ReadOutput()
         {
-            var wrapper = new WinWindow(Main);
-            wrapper.SearchProperties[WinButton.PropertyNames.Name] = "label1";
-
-            var label = new WinText(wrapper);
-            return label.DisplayText;
+            return Label.DisplayText;
         }
     }
 }

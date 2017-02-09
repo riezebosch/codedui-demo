@@ -23,8 +23,8 @@ namespace codedui_winforms.uitests
         [TestMethod]
         public void CodedUITestMethod1()
         {
-            var page = new MainPage();
-            page.Start()
+            MainPage
+                .Start()
                 .EnterInput(5)
                 .ClickButton()
                 .ReadOutput()
