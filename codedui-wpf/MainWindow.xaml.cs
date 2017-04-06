@@ -34,7 +34,7 @@ namespace codedui_wpf
             }
             else
             {
-                output.Content = "Invalid input.";
+                output.Content = "Ongeldige invoer!";
             }
         }
 

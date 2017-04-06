@@ -19,27 +19,44 @@ namespace codedui_wpf.uitests
     [DeploymentItem("codedui-wpf.exe")]
     public class CodedUITest1WPF
     {
-        [TestMethod]
-        public void CodedUITestMethod1()
+        ApplicationUnderTest sut;
+
+        [TestInitialize]
+        public void Opstarten()
         {
-            MainPage
-                 .Start()
-                .EnterFirstInput(5)
-                .EnterSecondInput(6)
-                .ClickButton()
-                .ReadOutput()
-                .ShouldBe("5");
+            sut = ApplicationUnderTest.Launch("codedui-wpf.exe");
         }
 
         [TestMethod]
-        public void ErrorMessageOnNegativeInput()
+        public void ZelfdeTestMetCuite()
         {
-            MainPage
-                .Start()
-                .EnterFirstInput(-3)
-                .ClickButton()
-                .ReadOutput()
-                .ShouldBe("Invalid input.");
+            MainPageCuite.Launch<MainPageCuite>("codedui-wpf.exe")
+                 .GetalOpVeld1Invoeren(0)
+                 .DrukOpKnop()
+                 .LeesResultaatUit()
+                 .ShouldBe("0");
+        }
+
+        [TestMethod]
+        public void HetEersteGetalIs0EnHetBijbehorendeFibonacciGetalIsOok0()
+        {
+           new MainPage(sut)
+                .GetalOpVeld1Invoeren(0)
+                .DrukOpKnop()
+                .LeesResultaatUit()
+                .ShouldBe("0");
+        }
+
+        [TestMethod]
+        public void BijEenNegatieveInvoerGeeftDeApplicatieDeMeldingInvalidInput()
+        {
+            var page = new MainPage(sut);
+            page.GetalOpVeld1Invoeren(-1);
+            page.DrukOpKnop();
+
+            var resultaat = page.LeesResultaatUit();
+
+            Assert.AreEqual("Ongeldige invoer!", resultaat);
         }
     }
 }
